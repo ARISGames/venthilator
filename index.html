@@ -1,6 +1,6 @@
 <html>
 <head>
-<meta charset="utf-8"></meta> <!-- because why not -->
+<meta charset="utf-8"> <!-- because why not -->
 <style>
 body,div
 {
@@ -65,17 +65,19 @@ function begin()
 function playerSuccess()
 {
   console.log("succeed");
-  //var item_name = 'SimpleItem';
-  //var item_id = ARIS.cache.idForItemName(item_name);
-  //ARIS.givePlayerItemCount(item_id,1);
+  var ventPass = 'ventPassPt2';
+  var ventPass = ARIS.cache.idForItemName(ventPass);
+  ARIS.givePlayerItemCount(ventPass,1);
+  ARIS.exit();
 }
 
 function playerFailure()
 {
   console.log("fail");
-  //var item_name = 'SimpleItem';
-  //var item_id = ARIS.cache.idForItemName(item_name);
-  //ARIS.givePlayerItemCount(item_id,1);
+  var ventFail = 'ventFailPt2';
+  var ventFail = ARIS.cache.idForItemName(ventFail);
+  ARIS.givePlayerItemCount(ventFail,1);
+  ARIS.exit();
 }
 
 var g;
@@ -109,7 +111,6 @@ window.addEventListener("load",begin,false);
 <div id="content" style="margin:0px auto; position:relative;">
   <div id="stage_container" style="position:absolute; top:0px; left:0px; user-select:none;"> </div>
 </div>
-
 <!-- only for use with dom.js
 <div id="fade" style="pointer-events:none; display:none; width:100%; height:100%; background-color:rgba(255,255,255,0.5); position:absolute; top:0px; left:0px;">
 </div>
@@ -124,5 +125,78 @@ window.addEventListener("load",begin,false);
 -->
 
 </body>
+  <script type="text/javascript">
+  var playerVolume = 0;
+  var playerPressure = 0;
+  var playerRate = 0;
+  var playerFlow = 0;
+  var playerOxygen = 0;
+  var playerITime = 0;
+  var playerPeep = 0;
+  var playerMaxPressure;
+  var playerMinPressure;
+  var playerMaxRate;
+  var playerMinRate;
+  var playerMaxFlow;
+  var playerMinFlow;
+  var playerMaxApnea;
+  var playerMinApnea;
+  //Variables for the JSON object
+  var myObject, myJSON, text, object;
+  var alarmObject, alarmJSON, alarmText, alarmParse;
+  function getVentSettings(setVolume, setPressure, setRate, setFlow, setOxygen, setITime, setPeep) {
+  
+    playerVolume = setVolume;
+    playerPressure = setPressure;
+    playerRate = setRate;
+    playerFlow = setFlow;
+    playerOxygen = setOxygen;
+    playerITime = setITime;
+    playerPeep = setPeep;
+    //Storing data
+    myObject = { 
+      "volume":playerVolume,
+      "pressure":playerPressure,
+      "rate":playerRate,
+      "flow":playerFlow,
+      "oxygen":playerOxygen,
+      "itime":playerITime,
+      "peep":playerPeep
+    };
+    myJSON = JSON.stringify(myObject);
+    localStorage.setItem("ventPlayerSet", myJSON);
+  }
+    
+  function getAlarmSettings(setMaxPressure, setMinPressure, setMaxRate, setMinRate, setMaxFlow, setMinFlow, setMaxApnea, setMinApnea) {
+    
+    playerMaxPressure = setMaxPressure;
+    playerMinPressure = setMinPressure;
+    playerMaxRate = setMaxRate;
+    playerMinRate = setMinRate;
+    playerMaxFlow = setMaxFlow;
+    playerMinFlow = setMinFlow;
+    playerMaxApnea = setMaxApnea;
+    playerMinApnea = setMinApnea; 
+    
+    alarmObject = { 
+      "maxPressureAlarm":playerMaxPressure, 
+      "minPressureAlarm":playerMinPressure, 
+      "maxRateAlarm":playerMaxRate,
+      "minRateAlarm":playerMinRate,
+      "maxFlowAlarm":playerMaxFlow,
+      "minFlowAlarm":playerMinFlow,
+      "maxApneaAlarm":playerMaxApnea,
+      "minApneaAlarm":playerMinApnea
+    };
+    
+    alarmJSON = JSON.stringify(alarmObject);
+    localStorage.setItem("alarmPlayerSet", alarmJSON);
+  }
+    
+  //Retrieving data
+  text = localStorage.getItem("ventPlayerSet");
+  object = JSON.parse(text);
+  alarmText = localStorage.getItem("alarmPlayerSet");
+  alarmParse = JSON.parse(alarmText);
+  </script>
 </html>
-
